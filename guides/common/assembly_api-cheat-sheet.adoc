@@ -10,7 +10,9 @@ include::modules/ref_listing-host-facts.adoc[leveloffset=+2]
 
 include::modules/ref_searching-for-hosts-with-matching-patterns.adoc[leveloffset=+2]
 
+ifndef::containerized[]
 include::modules/ref_searching-for-hosts-in-an-environment.adoc[leveloffset=+2]
+endif::[]
 
 include::modules/ref_searching-for-hosts-with-a-specific-fact-value.adoc[leveloffset=+2]
 

@@ -21,6 +21,10 @@ except ImportError:
     sys.exit(-1)
 
 HOSTNAME = "{foreman-example-com}"
+ifdef::containerized[]
+# Name of the managed host whose information you want to retrieve.
+MANAGED_HOSTNAME = "host.example.com"
+endif::[]
 # URL for the API to your {ProjectServer}
 FOREMAN_API = f"https://\{HOSTNAME}/api/"
 KATELLO_API = f"https://\{HOSTNAME}/katello/api/v2/"
@@ -78,7 +82,12 @@ def display_info_for_subs(url):
             print(f"{str(sub['id']):10}{sub['name']:90}{str(sub['start_date']):30}")
 
 def main():
+ifdef::containerized[]
+    host = MANAGED_HOSTNAME
+endif::[]
+ifndef::containerized[]
     host = HOSTNAME
+endif::[]
     print(f"Displaying all info for host \{host} ...")
     display_all_results(FOREMAN_API + 'hosts/' + host)
 
@@ -98,9 +107,11 @@ def main():
     else:
         print(f"Organization '\{ORGANIZATION_NAME}' does not exist.")
 
+ifndef::containerized[]
     environment = 'production'
     print(f"Displaying basic info for hosts in environment \{environment}...")
     display_info_for_hosts(FOREMAN_API + 'hosts?search=environment=' + environment)
+endif::[]
 
 
 if __name__ == "__main__":
